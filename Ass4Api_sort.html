@@ -1,0 +1,196 @@
+<html>
+	<head>
+		<title>Ass4Api_sort</title>
+	</head>
+    <body onload="doClick()">
+        
+        
+    <p style="width:30%;">Imgur image search</p>
+<input type="text" placeholder="Search" id="search" style="width: 30%;" />
+<button onclick="doClick()">Search</button>
+<div id="search-result">
+</div>
+        
+    
+
+          
+        <br>
+
+        <script>
+ 
+
+function doClick() {
+
+    var searchTerm = document.getElementById('search').value;
+  var xhttp = new XMLHttpRequest();
+  // When the request is successful, finished, and response is ready, execute these function
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var resObj = JSON.parse(xhttp.responseText);
+
+      
+     
+        
+        
+		var x = document.createElement("SELECT");
+		x.setAttribute("id", "mySelect");
+		document.body.appendChild(x);
+		
+		
+		
+		var z0 = document.createElement("option");
+		z0.setAttribute("value", "00");
+		var t0 = document.createTextNode("select sort type");
+		z0.appendChild(t0);
+		document.getElementById("mySelect").appendChild(z0);
+		
+		var z = document.createElement("option");
+		z.setAttribute("value", "0");
+		var t = document.createTextNode("By downs");
+		z.appendChild(t);
+		document.getElementById("mySelect").appendChild(z);
+		
+		var z2 = document.createElement("option");
+		z2.setAttribute("value", "1");
+		var t2 = document.createTextNode("By views");
+		z2.appendChild(t2);
+		document.getElementById("mySelect").appendChild(z2);
+		
+		var z3 = document.createElement("option");
+		z3.setAttribute("value", "2");
+		var t3 = document.createTextNode("By comment");
+		z3.appendChild(t3);
+		document.getElementById("mySelect").appendChild(z3);
+        
+        
+          var arrayOb = [   
+				{
+					src: "",
+                    vi: 0,
+                    comment: 0,
+                    down: 0
+				},
+				{
+					src: "",
+                    vi: 0,
+                    comment: 0,
+                    down: 0
+				},
+				{            
+					src: "",
+                    vi: 0,
+                    comment: 0,
+                    down: 0
+				},    
+				{
+					src: "",
+                    vi: 0,
+                    comment: 0,
+                    down: 0
+				},    
+				{
+					src: "",
+                    vi: 0,
+                    comment: 0,
+                    down: 0
+				},    
+				{
+					src: "",
+                    vi: 0,
+                    comment: 0,
+                    down: 0
+				}
+			];
+        for (var i=0;i<=5;i++) {
+          arrayOb[i].src = resObj.data[i].link;
+          arrayOb[i].vi = resObj.data[i].views;
+          arrayOb[i].comment = resObj.data[i].comment_count;
+          arrayOb[i].down = resObj.data[i].downs;
+            
+        
+            
+        }
+        
+        	var v = arrayOb.slice(0);
+			v.sort(function(a,b) {
+				return b.vi - a.vi;
+			});
+			
+         
+        	var com = arrayOb.slice(0);
+			com.sort(function(a,b) {
+				return b.comment - a.comment;
+			});
+        
+        	var d = arrayOb.slice(0);
+			d.sort(function(a,b) {
+				return b.down - a.down;
+			});
+        
+        
+        		
+	
+		
+         var x = document.createElement("UL");
+		x.setAttribute("id", "myUL");
+		document.body.appendChild(x);
+		
+        
+        var ids = document.getElementById('mySelect').value;
+		
+        		if(ids==0)
+		{
+			
+				for(var i=0;i<=5;i++){
+					var y = document.createElement("LI");
+					var img = document.createElement("IMG");
+                    img.style.height = "200";
+                    img.style.width = "200";
+					var dd=d[i].src;
+					img.setAttribute("src", ""+dd);
+					y.appendChild(img);
+					document.getElementById("myUL").appendChild(y);
+				}
+		}
+		
+		else if(ids==1){
+			for(var i=0;i<=5;i++){
+				var y = document.createElement("LI");
+					var img = document.createElement("IMG");
+                    img.style.height = "200";
+                    img.style.width = "200";
+					var dd=v[i].src;
+                    img.setAttribute("src", ""+dd);
+					y.appendChild(img);
+					document.getElementById("myUL").appendChild(y);
+				}
+		}
+        else if(ids==2){
+			for(var i=0;i<=5;i++){
+					var y = document.createElement("LI");
+					var img = document.createElement("IMG");
+                    img.style.height = "200";
+                    img.style.width = "200";
+					var dd=com[i].src;
+				    img.setAttribute("src", ""+dd);
+					y.appendChild(img);
+					document.getElementById("myUL").appendChild(y);
+				}
+		}
+       		
+    }
+          
+  }
+  console.log("https://api.imgur.com/3/gallery/search/top/all/1?q=" + searchTerm)
+  // Send an asynchronous HTTP GET request to the given end point (url)
+  xhttp.open("GET", "https://api.imgur.com/3/gallery/search/top/all/1?q=" + searchTerm, true);
+  xhttp.setRequestHeader("Authorization",
+    "Client-ID a0c164583c558ef")
+  xhttp.send();
+}
+
+        
+        </script>
+    
+    </body>
+</html>
